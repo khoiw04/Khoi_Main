@@ -11,7 +11,16 @@ export const SITE: Site = {
   postsPerPage: 3,
 }
 
-export const NAV_LINKS: SocialLink[] = []
+export const NAV_LINKS: SocialLink[] = [
+  {
+    label: 'Work',
+    href: '/work'
+  },
+  {
+    label: 'Submit Form',
+    href: 'https://blog.khoiwn04.com/en/form'
+  }
+]
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {
