@@ -1,6 +1,9 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content'
 import { readingTime, calculateWordCountFromHtml } from '@/lib/utils'
 
+export async function getAllAuthors(): Promise<CollectionEntry<'authors'>[]> {
+  return await getCollection('authors')
+}
 
 export async function getAllWorks(): Promise<CollectionEntry<'work'>[]> {
   const posts = await getCollection('work')
@@ -28,7 +31,7 @@ export async function getAllTags(): Promise<Map<string, number>> {
   }, new Map<string, number>())
 }
 
-export async function getAdjacentPosts(currentId: string): Promise<{
+export async function getAdjacentWorks(currentId: string): Promise<{
   newer: CollectionEntry<'work'> | null
   older: CollectionEntry<'work'> | null
   parent: CollectionEntry<'work'> | null
@@ -143,8 +146,11 @@ export function groupWorksByYear(
 ): Record<string, CollectionEntry<'work'>[]> {
   return posts.reduce(
     (acc: Record<string, CollectionEntry<'work'>[]>, post) => {
-      const year = post.data.date.getFullYear().toString();
-      (acc[year] ??= []).push(post)
+      const year = post.data.date.getFullYear().toString()
+      if (acc[year] === undefined || acc[year] === null) {
+        acc[year] = []
+      }
+      acc[year].push(post)
       return acc
     },
     {},
@@ -265,4 +271,21 @@ export async function getTOCSections(postId: string): Promise<TOCSection[]> {
   }
 
   return sections
+}
+
+export async function parseAuthors(authorIds: string[] = []) {
+  if (!authorIds.length) return []
+
+  const allAuthors = await getAllAuthors()
+  const allAuthorsMap = new Map(allAuthors.map((author) => [author.id, author]))
+
+  return authorIds.map((id) => {
+    const author = allAuthorsMap.get(id)
+    return {
+      id,
+      name: author?.data?.name || id,
+      avatar: author?.data?.avatar || '/static/logo.png',
+      isRegistered: !!author,
+    }
+  })
 }

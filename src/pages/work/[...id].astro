@@ -11,7 +11,7 @@ import { badgeVariants } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import Layout from '@/layouts/Layout.astro'
 import {
-  getAdjacentPosts,
+  getAdjacentWorks,
   getAllWorksAndSubposts,
   getCombinedReadingTime,
   getParentId,
@@ -21,6 +21,7 @@ import {
   getTOCSections,
   hasSubposts,
   isSubpost,
+  parseAuthors,
 } from '@/lib/data-utils'
 import { formatDate } from '@/lib/utils'
 import { Icon } from 'astro-icon/components'
@@ -38,9 +39,10 @@ export async function getStaticPaths() {
 const post = Astro.props
 const currentPostId = Astro.params.id
 const { Content, headings } = await render(post)
+const authors = await parseAuthors(post.data.authors ?? [])
 
 const isCurrentSubpost = isSubpost(currentPostId)
-const navigation = await getAdjacentPosts(currentPostId)
+const navigation = await getAdjacentWorks(currentPostId)
 const parentPost = isCurrentSubpost ? await getParentPost(currentPostId) : null
 
 const hasChildPosts = await hasSubposts(currentPostId)
@@ -139,6 +141,36 @@ const tocSections = await getTOCSections(currentPostId)
           <div
             class="flex w-full items-center justify-center gap-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0"
           >
+
+          {
+            authors.length > 0 && (
+              <div class="flex w-full items-center justify-center gap-x-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0">
+                {authors.map((author) => (
+                  <div class="flex items-center gap-x-1.5">
+                    <Image
+                      src={author.avatar}
+                      alt={author.name}
+                      width={20}
+                      height={20}
+                      class="rounded-full"
+                    />
+                    {author.isRegistered ? (
+                      <Link
+                        href={`/authors/${author.id}`}
+                        underline
+                        class="text-foreground"
+                      >
+                        <span>{author.name}</span>
+                      </Link>
+                    ) : (
+                      <span>{author.name}</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )
+          }
+
             <span>
               {postReadingTime}
               {

@@ -25,7 +25,7 @@ This is a pretty elegant solution which requires no frontmatter configuration, n
 
 ## Navigation complexity
 
-One of the more intricate parts of this update was rethinking navigation. The original `getAdjacentPosts(){:ts}` function assumed simple previous/next relationships. With subposts, we now have three distinct navigation contexts:
+One of the more intricate parts of this update was rethinking navigation. The original `getAdjacentWorks(){:ts}` function assumed simple previous/next relationships. With subposts, we now have three distinct navigation contexts:
 
 <Callout variant="example">
   Consider this structure:
@@ -48,7 +48,7 @@ One of the more intricate parts of this update was rethinking navigation. The or
 Here's how we handle this complexity:
 
 ```typescript title="src/lib/data-utils.ts" startLineNumber={40}
-export async function getAdjacentPosts(currentId: string): Promise<{
+export async function getAdjacentWorks(currentId: string): Promise<{
   newer: CollectionEntry<'blog'> | null
   older: CollectionEntry<'blog'> | null
   parent: CollectionEntry<'blog'> | null
