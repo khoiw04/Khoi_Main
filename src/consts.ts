@@ -3,7 +3,7 @@ import type { IconMap, SocialLink, Site } from '@/types'
 export const SITE: Site = {
   title: 'Khoi',
   description:
-    'astro-erudite is a opinionated, unstyled blogging template—built with Astro, Tailwind, and shadcn/ui.',
+    'Khoi is Design Engineer in Vietnam. Asking, and answering the outstanding things by self-taught',
   href: 'https://khoiwn04.com',
   author: 'khoiw04',
   locale: 'en-US',
@@ -11,25 +11,16 @@ export const SITE: Site = {
   postsPerPage: 3,
 }
 
-export const NAV_LINKS: SocialLink[] = [
-  {
-    href: '/works',
-    label: 'work',
-  },
-  {
-    href: '/about',
-    label: 'about',
-  },
-]
+export const NAV_LINKS: SocialLink[] = []
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {
-    href: 'https://github.com/khoiw04',
-    label: 'GitHub',
-  },
-  {
     href: 'https://discord.gg/NcuCYAjdp2',
     label: 'Discord',
+  },
+  {
+    href: 'https://github.com/khoiw04',
+    label: 'GitHub',
   },
   {
     href: 'mailto:contact@khoiwn04.com',

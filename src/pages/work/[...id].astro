@@ -81,23 +81,23 @@ const tocSections = await getTOCSections(currentPostId)
     <div class="col-start-2">
       <Breadcrumbs
         items={[
-          { href: '/works', label: 'Work', icon: 'lucide:library-big' },
+          { href: '/work', label: 'Work', icon: 'lucide:library-big' },
           ...(isCurrentSubpost && parentPost
             ? [
                 {
-                  href: `/works/${parentPost.id}`,
+                  href: `/work/${parentPost.id}`,
                   label: parentPost.data.title,
                   icon: 'lucide:book-open',
                 },
                 {
-                  href: `/works/${currentPostId}`,
+                  href: `/work/${currentPostId}`,
                   label: post.data.title,
                   icon: 'lucide:file-text',
                 },
               ]
             : [
                 {
-                  href: `/works/${currentPostId}`,
+                  href: `/work/${currentPostId}`,
                   label: post.data.title,
                   icon: 'lucide:book-open-text',
                 },
