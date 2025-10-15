@@ -1,37 +1,25 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content'
 import { readingTime, calculateWordCountFromHtml } from '@/lib/utils'
 
-export async function getAllAuthors(): Promise<CollectionEntry<'authors'>[]> {
-  return await getCollection('authors')
-}
 
-export async function getAllPosts(): Promise<CollectionEntry<'blog'>[]> {
-  const posts = await getCollection('blog')
+export async function getAllWorks(): Promise<CollectionEntry<'works'>[]> {
+  const posts = await getCollection('works')
   return posts
     .filter((post) => !post.data.draft && !isSubpost(post.id))
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 }
 
-export async function getAllPostsAndSubposts(): Promise<
-  CollectionEntry<'blog'>[]
+export async function getAllWorksAndSubposts(): Promise<
+  CollectionEntry<'works'>[]
 > {
-  const posts = await getCollection('blog')
+  const posts = await getCollection('works')
   return posts
     .filter((post) => !post.data.draft)
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 }
 
-export async function getAllProjects(): Promise<CollectionEntry<'projects'>[]> {
-  const projects = await getCollection('projects')
-  return projects.sort((a, b) => {
-    const dateA = a.data.startDate?.getTime() || 0
-    const dateB = b.data.startDate?.getTime() || 0
-    return dateB - dateA
-  })
-}
-
 export async function getAllTags(): Promise<Map<string, number>> {
-  const posts = await getAllPosts()
+  const posts = await getAllWorks()
   return posts.reduce((acc, post) => {
     post.data.tags?.forEach((tag) => {
       acc.set(tag, (acc.get(tag) || 0) + 1)
@@ -41,18 +29,18 @@ export async function getAllTags(): Promise<Map<string, number>> {
 }
 
 export async function getAdjacentPosts(currentId: string): Promise<{
-  newer: CollectionEntry<'blog'> | null
-  older: CollectionEntry<'blog'> | null
-  parent: CollectionEntry<'blog'> | null
+  newer: CollectionEntry<'works'> | null
+  older: CollectionEntry<'works'> | null
+  parent: CollectionEntry<'works'> | null
 }> {
-  const allPosts = await getAllPosts()
+  const allPosts = await getAllWorks()
 
   if (isSubpost(currentId)) {
     const parentId = getParentId(currentId)
-    const allPosts = await getAllPosts()
+    const allPosts = await getAllWorks()
     const parent = allPosts.find((post) => post.id === parentId) || null
 
-    const posts = await getCollection('blog')
+    const posts = await getCollection('works')
     const subposts = posts
       .filter(
         (post) =>
@@ -99,24 +87,17 @@ export async function getAdjacentPosts(currentId: string): Promise<{
   }
 }
 
-export async function getPostsByAuthor(
-  authorId: string,
-): Promise<CollectionEntry<'blog'>[]> {
-  const posts = await getAllPosts()
-  return posts.filter((post) => post.data.authors?.includes(authorId))
-}
-
-export async function getPostsByTag(
+export async function getWorksByTag(
   tag: string,
-): Promise<CollectionEntry<'blog'>[]> {
-  const posts = await getAllPosts()
+): Promise<CollectionEntry<'works'>[]> {
+  const posts = await getAllWorks()
   return posts.filter((post) => post.data.tags?.includes(tag))
 }
 
-export async function getRecentPosts(
+export async function getRecentWorks(
   count: number,
-): Promise<CollectionEntry<'blog'>[]> {
-  const posts = await getAllPosts()
+): Promise<CollectionEntry<'works'>[]> {
+  const posts = await getAllWorks()
   return posts.slice(0, count)
 }
 
@@ -138,8 +119,8 @@ export function getParentId(subpostId: string): string {
 
 export async function getSubpostsForParent(
   parentId: string,
-): Promise<CollectionEntry<'blog'>[]> {
-  const posts = await getCollection('blog')
+): Promise<CollectionEntry<'works'>[]> {
+  const posts = await getCollection('works')
   return posts
     .filter(
       (post) =>
@@ -157,11 +138,11 @@ export async function getSubpostsForParent(
     })
 }
 
-export function groupPostsByYear(
-  posts: CollectionEntry<'blog'>[],
-): Record<string, CollectionEntry<'blog'>[]> {
+export function groupWorksByYear(
+  posts: CollectionEntry<'works'>[],
+): Record<string, CollectionEntry<'works'>[]> {
   return posts.reduce(
-    (acc: Record<string, CollectionEntry<'blog'>[]>, post) => {
+    (acc: Record<string, CollectionEntry<'works'>[]>, post) => {
       const year = post.data.date.getFullYear().toString()
       ;(acc[year] ??= []).push(post)
       return acc
@@ -181,37 +162,20 @@ export function isSubpost(postId: string): boolean {
 
 export async function getParentPost(
   subpostId: string,
-): Promise<CollectionEntry<'blog'> | null> {
+): Promise<CollectionEntry<'works'> | null> {
   if (!isSubpost(subpostId)) {
     return null
   }
 
   const parentId = getParentId(subpostId)
-  const allPosts = await getAllPosts()
+  const allPosts = await getAllWorks()
   return allPosts.find((post) => post.id === parentId) || null
 }
 
-export async function parseAuthors(authorIds: string[] = []) {
-  if (!authorIds.length) return []
-
-  const allAuthors = await getAllAuthors()
-  const authorMap = new Map(allAuthors.map((author) => [author.id, author]))
-
-  return authorIds.map((id) => {
-    const author = authorMap.get(id)
-    return {
-      id,
-      name: author?.data?.name || id,
-      avatar: author?.data?.avatar || '/static/logo.png',
-      isRegistered: !!author,
-    }
-  })
-}
-
-export async function getPostById(
+export async function getWorkById(
   postId: string,
-): Promise<CollectionEntry<'blog'> | null> {
-  const allPosts = await getAllPostsAndSubposts()
+): Promise<CollectionEntry<'works'> | null> {
+  const allPosts = await getAllWorksAndSubposts()
   return allPosts.find((post) => post.id === postId) || null
 }
 
@@ -221,7 +185,7 @@ export async function getSubpostCount(parentId: string): Promise<number> {
 }
 
 export async function getCombinedReadingTime(postId: string): Promise<string> {
-  const post = await getPostById(postId)
+  const post = await getWorkById(postId)
   if (!post) return readingTime(0)
 
   let totalWords = calculateWordCountFromHtml(post.body)
@@ -237,7 +201,7 @@ export async function getCombinedReadingTime(postId: string): Promise<string> {
 }
 
 export async function getPostReadingTime(postId: string): Promise<string> {
-  const post = await getPostById(postId)
+  const post = await getWorkById(postId)
   if (!post) return readingTime(0)
 
   const wordCount = calculateWordCountFromHtml(post.body)
@@ -259,11 +223,11 @@ export type TOCSection = {
 }
 
 export async function getTOCSections(postId: string): Promise<TOCSection[]> {
-  const post = await getPostById(postId)
+  const post = await getWorkById(postId)
   if (!post) return []
 
   const parentId = isSubpost(postId) ? getParentId(postId) : postId
-  const parentPost = isSubpost(postId) ? await getPostById(parentId) : post
+  const parentPost = isSubpost(postId) ? await getWorkById(parentId) : post
 
   if (!parentPost) return []
 

@@ -67,7 +67,11 @@ export default defineConfig({
     mdx(),
     react(),
     sitemap(),
-    icon(),
+    icon({
+      include: {
+        'simple-icons': ['discord']
+      }
+    })
   ],
   vite: {
     plugins: [tailwindcss()],

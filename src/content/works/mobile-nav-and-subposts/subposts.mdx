@@ -53,7 +53,7 @@ export async function getAdjacentPosts(currentId: string): Promise<{
   older: CollectionEntry<'blog'> | null
   parent: CollectionEntry<'blog'> | null
 }> {
-  const allPosts = await getAllPosts()
+  const allPosts = await getAllWorks()
 
   if (isSubpost(currentId)) {
     const parentId = getParentId(currentId)
@@ -103,26 +103,26 @@ As a TL;DR, subposts should only navigate among siblings and should be able to g
 
 - The breadcrumb component required careful thought to handle three distinct cases:
 
-    ```astro title="src/pages/blog/[...id].astro" startLineNumber={70}
+    ```astro title="src/pages/works/[...id].astro" startLineNumber={70}
     <Breadcrumbs
       items={[
-        { href: '/blog', label: 'Blog', icon: 'lucide:library-big' },
+        { href: '/works', label: 'Blog', icon: 'lucide:library-big' },
         ...(isCurrentSubpost && parentPost
           ? [
               {
-                href: `/blog/${parentPost.id}`,
+                href: `/works/${parentPost.id}`,
                 label: parentPost.data.title,
                 icon: 'lucide:book-open',
               },
               {
-                href: `/blog/${currentPostId}`,
+                href: `/works/${currentPostId}`,
                 label: post.data.title,
                 icon: 'lucide:file-text',
               },
             ]
           : [
               {
-                href: `/blog/${currentPostId}`,
+                href: `/works/${currentPostId}`,
                 label: post.data.title,
                 icon: 'lucide:book-open-text',
               },
@@ -136,7 +136,7 @@ As a TL;DR, subposts should only navigate among siblings and should be able to g
 - The main blog listing (alongside other listings, e.g. filtering by tags, filtering by author) should exclude subposts to avoid cluttering the feed:
 
     ```typescript title="src/lib/data-utils.ts" startLineNumber={7}
-    export async function getAllPosts(): Promise<CollectionEntry<'blog'>[]> {
+    export async function getAllWorks(): Promise<CollectionEntry<'blog'>[]> {
     const posts = await getCollection('blog')
     return posts
         .filter((post) => !post.data.draft && !isSubpost(post.id))

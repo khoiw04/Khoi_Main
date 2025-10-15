@@ -16,7 +16,7 @@ astro-erudite is an opinionated, unstyled static blogging template built with [A
 | ![Preview 3](/public/static/preview-3.png) | ![Preview 4](/public/static/preview-4.png) |
 
 > [!NOTE]
-> To learn more about why this template exists, read [The State of Static Blogs in 2024](https://astro-erudite.vercel.app/blog/the-state-of-static-blogs), where I share my take on what constitutes a great blogging template and my goals while developing this one.
+> To learn more about why this template exists, read [The State of Static Blogs in 2024](https://astro-erudite.vercel.app/works/the-state-of-static-blogs), where I share my take on what constitutes a great blogging template and my goals while developing this one.
 
 ---
 
@@ -34,13 +34,13 @@ Below are some fantastic examples of websites based on this template. If you wis
 | [hyuki.dev](https://hyuki.dev/)                      | [@snow0406](https://github.com/snow0406)               | A minimalist blog with a blue color scheme, focusing on simplicity!                                                                                       | [→](https://github.com/Snow0406/hyuki.dev)              |
 | [ldd.cc](https://ldd.cc/)                            | [@xJoyLu](https://github.com/xjoylu)                   | The cream of the idlers.                                                                                                                                  | [→](https://ldd.cc/)                                    |
 | [rezarezvan.com](https://rezarezvan.com/)            | [@rezaarezvan](https://github.com/rezaarezvan)         | A academic blog with personal touches :).                                                                                                                 | [→](https://rezarezvan.com/)                            |
-| [blog.z0x.ca](https://blog.z0x.ca/)                  | [@z0x](https://z0x.ca)                                 | _Very_ minimal version of erudite, stripping it down to the bare essentials                                                                               | [→](https://git.z0x.ca/z0x/blog.z0x.ca/)                |
+| [blog.z0x.ca](https://works.z0x.ca/)                  | [@z0x](https://z0x.ca)                                 | _Very_ minimal version of erudite, stripping it down to the bare essentials                                                                               | [→](https://git.z0x.ca/z0x/works.z0x.ca/)                |
 | [angelaytchan.net](https://angelaytchan.net/)        | [@wispyplant](https://github.com/wispyplant)           | An artist portfolio and activities archive                                                                                                                | [→](https://github.com/wispyplant/wispyplant.github.io) |
 | [kaezr.xyz](https://kaezr.xyz/)                      | [@kaezrr](https://github.com/kaezrr)                   | A minimal porfolio and blog website with slight tweaks to the original.                                                                                   | [→](https://github.com/kaezrr/webfolio)                 |
 | [worldwidewong](https://worldwidewong.vercel.app)    | [@brendanwong-web](https://github.com/brendanwong-web) | A slightly funky portfolio, blog, and resume site with an added photo gallery.                                                                            | [→](https://github.com/brendanwong-web/worldwidewong)   |
 | [bgajjala.dev](https://bgajjala.dev)                 | [@bgajjala8](https://github.com/bgajjala8)             | A minimal blog featuring a paper-color inspired color scheme                                                                                              | [→](https://github.com/bgajjala8/bgajjala.dev)          |
 | [ankitz007.vercel.app](https://ankitz007.vercel.app) | [@ankitz007](https://github.com/ankitz007)             | A personal blog with a few modifications and updates to the original.                                                                                     | [→](https://github.com/ankitz007/webfolio)              |
-| [sadman.ca](https://sadman.ca)                       | [@sadmanca](https://github.com/sadmanca)               | A customized personal blog with: Goodreads reading progress tracker, SVG thumbnails, custom heading styles, and dynamic media grids (books, movies, etc.) | [→](https://github.com/sadmanca/blogv3)                 |
+| [sadman.ca](https://sadman.ca)                       | [@sadmanca](https://github.com/sadmanca)               | A customized personal blog with: Goodreads reading progress tracker, SVG thumbnails, custom heading styles, and dynamic media grids (books, movies, etc.) | [→](https://github.com/sadmanca/worksv3)                 |
 | [marcel-to.vercel.app](https://marcel-to.vercel.app) | [@Marcel-TO](https://github.com/Marcel-TO)             | A content‑driven personal portfolio showcasing software projects, deep–dive blog series and multi-part project documentation.                             | [→](https://github.com/Marcel-TO/marcel-to-website)     |
 
 ## Features
@@ -121,7 +121,7 @@ export const SITE: Site = {
 
 export const NAV_LINKS: SocialLink[] = [
   {
-    href: '/blog',
+    href: '/works',
     label: 'blog',
   },
   // ...
@@ -180,7 +180,7 @@ Favicons are generated using [RealFaviconGenerator](https://realfavicongenerator
 
 ### Blog Posts
 
-Add new blog posts as MDX files in the `src/content/blog/` directory. Use the following frontmatter structure:
+Add new blog posts as MDX files in the `src/content/works/` directory. Use the following frontmatter structure:
 
 ```yml
 ---
