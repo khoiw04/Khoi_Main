@@ -120,6 +120,15 @@ export function getParentId(subpostId: string): string {
   return subpostId.split('/')[0]
 }
 
+export async function hasSubposts(postId: string): Promise<boolean> {
+  const subposts = await getSubpostsForParent(postId)
+  return subposts.length > 0
+}
+
+export function isSubpost(postId: string): boolean {
+  return postId.includes('/')
+}
+
 export async function getSubpostsForParent(
   parentId: string,
 ): Promise<CollectionEntry<'work'>[]> {
@@ -157,15 +166,6 @@ export function groupWorksByYear(
   )
 }
 
-export async function hasSubposts(postId: string): Promise<boolean> {
-  const subposts = await getSubpostsForParent(postId)
-  return subposts.length > 0
-}
-
-export function isSubpost(postId: string): boolean {
-  return postId.includes('/')
-}
-
 export async function getParentPost(
   subpostId: string,
 ): Promise<CollectionEntry<'work'> | null> {
@@ -183,6 +183,13 @@ export async function getWorkById(
 ): Promise<CollectionEntry<'work'> | null> {
   const allPosts = await getAllWorksAndSubposts()
   return allPosts.find((post) => post.id === postId) || null
+}
+
+export async function getWorksByAuthor(
+  authorId: string,
+): Promise<CollectionEntry<'work'>[]> {
+  const posts = await getAllWorks()
+  return posts.filter((post) => post.data.authors?.includes(authorId))
 }
 
 export async function getSubpostCount(parentId: string): Promise<number> {

@@ -17,6 +17,7 @@ import { Icon } from 'astro-icon/components'
 
 <script is:inline data-astro-rerun>
   (() => {
+    let metaTag = document.querySelector('meta[name="color-scheme"]');
     const theme = (() => {
       const stored = localStorage?.getItem('theme') ?? ''
       if (['dark', 'light'].includes(stored)) return stored
@@ -27,10 +28,29 @@ import { Icon } from 'astro-icon/components'
 
     document.documentElement.setAttribute('data-theme', theme)
     window.localStorage.setItem('theme', theme)
+    if (theme === 'dark') {
+      metaTag = document.createElement("meta");
+      metaTag.name = "color-scheme";
+      metaTag.content = "light dark";
+      document.head.appendChild(metaTag);
+    }
   })()
 </script>
 
 <script>
+  function handleToogleSchema(theme: string) {
+    let metaTag = document.querySelector('meta[name="color-scheme"]');
+    const isDark = theme === 'dark'
+    if (!metaTag && isDark) {
+      metaTag = document.createElement("meta");
+      metaTag.name = "color-scheme";
+      metaTag.content = "light dark";
+      document.head.appendChild(metaTag);
+    } else if (metaTag && !isDark) {
+      metaTag.remove();
+    }
+  }
+
   function handleToggleClick() {
     const element = document.documentElement
     const currentTheme = element.getAttribute('data-theme')
@@ -45,6 +65,7 @@ import { Icon } from 'astro-icon/components'
     })
 
     localStorage.setItem('theme', newTheme)
+    handleToogleSchema(newTheme)
   }
 
   function initThemeToggle() {
@@ -62,6 +83,7 @@ import { Icon } from 'astro-icon/components'
     element.classList.add('[&_*]:transition-none')
     window.getComputedStyle(element).getPropertyValue('opacity')
     element.setAttribute('data-theme', storedTheme)
+    handleToogleSchema(storedTheme)
 
     requestAnimationFrame(() => {
       element.classList.remove('[&_*]:transition-none')

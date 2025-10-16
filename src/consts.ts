@@ -7,7 +7,7 @@ export const SITE: Site = {
   href: 'https://khoiwn04.com',
   author: 'khoiw04',
   locale: 'en-US',
-  featuredPostCount: 2,
+  featuredPostCount: 3,
   postsPerPage: 3,
 }
 

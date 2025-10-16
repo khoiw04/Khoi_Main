@@ -10,6 +10,7 @@ const work = defineCollection({
       date: z.coerce.date(),
       order: z.number().optional(),
       image: image().optional(),
+      website: z.string().url().optional(),
       tags: z.array(z.string()).optional(),
       authors: z.array(z.string()).optional(),
       draft: z.boolean().optional(),

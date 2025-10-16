@@ -16,6 +16,7 @@ const currentPath = Astro.url.pathname
 const isAuthorPage = currentPath === `/authors/${author.id}`
 
 const socialLinks: SocialLink[] = [
+  author.data.discord && { href: author.data.discord, label: 'Discord' },
   author.data.website && { href: author.data.website, label: 'Website' },
   author.data.github && { href: author.data.github, label: 'GitHub' },
   author.data.twitter && { href: author.data.twitter, label: 'Twitter' },
