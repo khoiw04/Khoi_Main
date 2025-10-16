@@ -39,7 +39,7 @@ import { Icon } from 'astro-icon/components'
 
 <script>
   function handleToogleSchema(theme: string) {
-    let metaTag = document.querySelector('meta[name="color-scheme"]');
+    let metaTag = document.querySelector('meta[name="color-scheme"]') as HTMLMetaElement | null
     const isDark = theme === 'dark'
     if (!metaTag && isDark) {
       metaTag = document.createElement("meta");
