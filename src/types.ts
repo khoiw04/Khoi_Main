@@ -8,6 +8,12 @@ export type Site = {
   postsPerPage: number
 }
 
+export type NavbarLink = {
+  href: string
+  label: string
+  external?: boolean
+}
+
 export type SocialLink = {
   href: string
   label: string

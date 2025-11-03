@@ -1,4 +1,4 @@
-import type { IconMap, SocialLink, Site } from '@/types'
+import type { IconMap, SocialLink, Site, NavbarLink } from '@/types'
 
 export const SITE: Site = {
   title: 'Khoi',
@@ -11,10 +11,15 @@ export const SITE: Site = {
   postsPerPage: 3,
 }
 
-export const NAV_LINKS: SocialLink[] = [
+export const NAV_LINKS: NavbarLink[] = [
   {
     label: 'Work',
     href: '/work'
+  },
+  {
+    label: 'Blog',
+    href: 'https://blog.khoiwn04.com/en',
+    external: true
   },
   {
     label: 'Submit Form',
